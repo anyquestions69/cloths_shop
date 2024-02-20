@@ -23,6 +23,10 @@ const User = sequelize.define("user", {
     password: {
       type: Sequelize.STRING,
       allowNull:false
+    },
+    isAdmin:{
+      type:Sequelize.BOOLEAN,
+      default:false
     }
   },{
     timestamps: false
@@ -43,9 +47,6 @@ const User = sequelize.define("user", {
     },
     price: {
       type: Sequelize.FLOAT
-    },
-    color:{
-      type: Sequelize.STRING,
     }
   },{
     timestamps: false
@@ -72,8 +73,13 @@ const User = sequelize.define("user", {
   const cat = [{name:"Одежда"},{name:"Обувь"}, {name:"Аксессуары"}]
 const subcat = [{name: "Свободно"}, {name: "Ожидает подтверждения"}, {name:"Забронирован"}]
 
-sequelize.sync({force: true}).then(async function (result){
-
+sequelize.sync({force: false}).then(async function (result){
+  if((await Category.findAll()).length==0)
+  await Category.bulkCreate(cat, { validate: true })
+if((await Subcategory.findAll()).length==0)
+ await Subcategory.bulkCreate(subcat, { validate: true })
+if(!(await User.findOne({where:{email:process.env.ADMIN_EMAIL}})))
+ await User.create({email:process.env.ADMIN_EMAIL, password:process.env.ADMIN_PASSWORD, firstname:"Dan", lastname:"Ivanov", isAdmin:true})
 
     
 })

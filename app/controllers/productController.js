@@ -44,7 +44,7 @@ class Manager{
             let resData= getPagingData(result, page, 10)
             return res.send(resData)
         } catch (error) {
-            
+            return res.status(400).send(error)
         }
     }
     async getOne(req,res){
@@ -55,6 +55,15 @@ class Manager{
             return res.status(400).send(error)
         }
         
+    }
+    async addProduct(req,res){
+        try {
+            let {name, description, price, categoryId, subcategoryId} = req.body
+            let product = await Product.create({name, description,price, categoryId, subcategoryId})
+            return res.send(product)
+        } catch (error) {
+            return res.status(400).send(error)
+        }
     }
    
 }
