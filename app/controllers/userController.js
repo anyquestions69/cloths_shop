@@ -48,8 +48,8 @@ class Manager{
                 password:password,
                 
             })
-            const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '3600s' });
-            return res.cookie('user',token, { maxAge: 900000, httpOnly: true }).send(user.email)
+            const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '14400s' });
+            return res.cookie('user',token, { maxAge: 9000000, httpOnly: true }).send(user.email)
         }catch(e){
             console.log(e)
             return res.status(404).send('Ошибка')
@@ -59,17 +59,14 @@ class Manager{
     async login(req,res){
         try{
             let {email, password} = req.body
-            /* let re=/^0x[a-fA-F0-9]{40}$/g
-            if(!re.test(wallet))
-                return res.status(401).send({error:'Введите валидный адрес кошелька'}) */
             let user = await User.findOne({where:{email}})
             
             if(!user)
                 return res.status(401).send({error:'Такого email не существует'})
            
             if(user.password==password){
-                const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '3600s' });
-                return res.cookie('user',token, { maxAge: 900000, httpOnly: true }).send(user)
+                const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '14400s' });
+                return res.cookie('user',token, { maxAge: 9000000, httpOnly: true }).send(user)
             }else{
                 return res.status(404).send({error:'Неверный пароль'})
             }
