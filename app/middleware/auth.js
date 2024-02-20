@@ -10,9 +10,7 @@ class Auth{
         await jwt.verify(token, process.env.TOKEN_SECRET, async(err, user) => {
             let exists = await User.findOne({where:{id:user.id}})
             if(exists)
-                req.user = exists
-            
-                
+                req.user = exists  
         })
         }
         next()
