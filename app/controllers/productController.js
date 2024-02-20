@@ -1,20 +1,20 @@
-const {Activity , Group} = require('../models/user')
+const {Product} = require('../models/user')
 const { Op } = require("sequelize");
 const Sequelize = require('sequelize')
 
    
 
 const getPagingData = (data, page, limit) => {
-    const { count: totalItems, rows: groups } = data;
+    const { count: totalItems, rows: Products } = data;
     const currentPage = page ? +page : 0;
     const totalPages = Math.ceil(totalItems / limit);
   
-    return { totalItems, groups, totalPages, currentPage };
+    return { totalItems, Products, totalPages, currentPage };
   };
   
 
 class Manager{
-    async getGroups(req,res) {  
+    async getProducts(req,res) {  
         let {id, cat_1, district, activities, days, status, type, schedule,page}=req.query
             let filter =[]
             let exclude
@@ -105,71 +105,26 @@ class Manager{
             let result
 
             if(filter.length>1){
-             result= await Group.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:{
+             result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:{
                 [Op.and]: filter
                 }})
             }else{
-                result= await Group.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:filter[0], attributes:exclude})
+                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:filter[0], attributes:exclude})
                     //console.log(result)
             }
             let resData= getPagingData(result, page, 10)
-            for(let i=0;i<resData.groups.length;i++){
-                //console.log(resData.groups[i].activity)
-                //dadata.address({ query: resData.groups[i].address, count: 1 }).then(r=>console.log(r)).catch(err=>console.log(err))
+            for(let i=0;i<resData.Products.length;i++){
+                //console.log(resData.Products[i].activity)
+                //dadata.address({ query: resData.Products[i].address, count: 1 }).then(r=>console.log(r)).catch(err=>console.log(err))
             }
             return res.send(resData)
 
     }
-    async getActCat(req,res){
-        
-      
-            let result = await Group.findAll({attributes: [
-               
-                [Sequelize.fn('DISTINCT', Sequelize.col('cat_1')) ,'cat_1'],
-        
-        
-            ]})
-             return res.send(result)
-        
-    }
-    async getDistrics(req,res){
-        let result = await Group.findAll({order:[['district', 'ASC']],attributes: [
-               
-            [Sequelize.fn('DISTINCT', Sequelize.col('district')) ,'district'],
-    
-    
-        ]})
-         return res.send(result)
-    }
     async getOne(req,res){
-        let act = await Group.findOne({where:{id:req.params['id']}})
+        let act = await Product.findOne({where:{id:req.params['id']}})
         return res.send(act)
     }
-    async viewOne(req,res){
-        if(!Number.isInteger(parseInt(req.params['id']))){
-            return res.render('group.hbs', {
-                
-                group:{name:req.params['id']}
-                });
-        }
-        let group = await Group.findOne({where:{id:Number(req.params['id'])}})
-        return res.render('group.hbs', {
-            api_key:process.env.API_KEY,
-            group:group
-            });
-    }
-    
-    async assing(req,res){
-        /* let usr = await User.findOne({where:{id:req.user.id}})
-        if(!usr)return res.send('Необходимо авторизоваться')
-        let act = await Activity.findOne({where:{id:req.params['id']}})
-        let result = await usr.addActivity(act, {through:{date:new Date()}})
-        console.log(result)
-        if(result){
-            return res.send('Вы успешно записались!')
-        }
-        return res.send('Ошибка') */
-    }
+   
 }
 let manager = new Manager()
 module.exports = manager
