@@ -4,16 +4,26 @@ const jwt = require('jsonwebtoken')
 
 class Auth{
     async getUser(req,res,next){
-        const token = req.cookies.user
-        
-        if(token){
-        await jwt.verify(token, process.env.TOKEN_SECRET, async(err, user) => {
-            let exists = await User.findOne({where:{id:user.id}})
-            if(exists)
-                req.user = exists  
-        })
+        try {
+            const token = req.cookies.user
+            if(token){
+                await jwt.verify(token, process.env.TOKEN_SECRET, async(err, user) => {
+                    let exists = await User.findOne({where:{id:user.id}})
+                    if(exists){
+                        req.user = exists
+                        next()
+                    }else{
+                        return res.sendStatus(401)
+                    }  
+                })
+            }else{
+                return res.sendStatus(401)
+            }
+            
+        } catch (error) {
+            return res.sendStatus(501)
         }
-        next()
+        
     }
     async isAuth(req,res,next){
 
@@ -36,11 +46,9 @@ class Auth{
     }
     async isAdmin(req,res,next){
         if(!req.user.isAdmin){
-            return res.send('Не авторизован')
+            return res.status(403).send('Не админ')
         }
-        
             next()
-        
     }
 }
 module.exports = new Auth()

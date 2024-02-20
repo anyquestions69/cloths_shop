@@ -65,6 +65,16 @@ class Manager{
             return res.status(400).send(error)
         }
     }
+    async editProduct(req,res){
+        try {
+            let id = req.query
+            let {name, description, price, categoryId, subcategoryId} = req.body
+            let product = await Product.create({name, description,price, categoryId, subcategoryId})
+            return res.send(product)
+        } catch (error) {
+            return res.status(400).send(error)
+        }
+    }
    
 }
 let manager = new Manager()
