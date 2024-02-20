@@ -1,11 +1,11 @@
 // Express
 const express = require('express')
 const app = express()
-
+require('dotenv').config();
 const userRouter = require('./routers/userRouter.js')
 const authRouter = require('./routers/authRouter.js')
 const productRouter = require('./routers/productRouter.js')
-require('dotenv').config();
+
 
 var cookieParser = require('cookie-parser');
 const jsonParser = express.json();

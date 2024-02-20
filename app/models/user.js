@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require('../config/database')
-
+var crypto = require('crypto');
+var key = crypto.createCipher('aes-128-cbc', process.env.CRYPT_KEY);
 
 const User = sequelize.define("user", {
     id: {
@@ -78,8 +79,11 @@ sequelize.sync({force: false}).then(async function (result){
   await Category.bulkCreate(cat, { validate: true })
 if((await Subcategory.findAll()).length==0)
  await Subcategory.bulkCreate(subcat, { validate: true })
-if(!(await User.findOne({where:{email:process.env.ADMIN_EMAIL}})))
- await User.create({email:process.env.ADMIN_EMAIL, password:process.env.ADMIN_PASSWORD, firstname:"Dan", lastname:"Ivanov", isAdmin:true})
+if(!(await User.findOne({where:{email:process.env.ADMIN_EMAIL}}))){
+  var hashedPass = key.update(process.env.ADMIN_PASSWORD, 'utf8', 'hex')
+  hashedPass+=key.final('hex');
+ await User.create({email:process.env.ADMIN_EMAIL, password:hashedPass, firstname:"Dan", lastname:"Ivanov", isAdmin:true})
+}
 
     
 })

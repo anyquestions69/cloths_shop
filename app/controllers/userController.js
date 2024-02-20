@@ -2,6 +2,8 @@ const {User} = require('../models/user')
 const { Op } = require("sequelize");
 const Sequelize = require('sequelize')
 const jwt = require('jsonwebtoken')
+var crypto = require('crypto');
+var key = crypto.createCipher('aes-128-cbc', process.env.CRYPT_KEY);
 
 const getPagingData = (data, page, limit) => {
     const { count: totalItems, rows: users } = data;
@@ -31,7 +33,7 @@ class Manager{
             let {firstname, lastname, email, password,repass} = req.body
             if(email)
                 if(email.replace(' ','')=='')
-                    return res.status(401).send('Заполните ФИО')
+                    return res.status(401).send('Заполните email')
             let re = /(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})/g
             if(re.test(email) | re.test(password))
                 return res.status(401).send('Не пытайтесь взломать нас')
@@ -41,11 +43,14 @@ class Manager{
             let exists = await User.findOne({where:{email:email}})
             if(exists)
                 return res.status(401).send('Пользователь с таким именем уже существует. Попросите администратора удалить Ваш старый аккаунт прежде чем создавать новый.')
+            
+            var hashedPass = key.update(password, 'utf8', 'hex')
+            hashedPass+=key.final('hex');
             let user = await User.create({
                 firstname,
                 lastname,
                 email:email,
-                password:password,
+                password:hashedPass,
                 
             })
             const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '3600s' });
@@ -59,15 +64,13 @@ class Manager{
     async login(req,res){
         try{
             let {email, password} = req.body
-            /* let re=/^0x[a-fA-F0-9]{40}$/g
-            if(!re.test(wallet))
-                return res.status(401).send({error:'Введите валидный адрес кошелька'}) */
             let user = await User.findOne({where:{email}})
             
             if(!user)
                 return res.status(401).send({error:'Такого email не существует'})
-           
-            if(user.password==password){
+            var hashedPass = key.update(password, 'hex', 'utf8')
+            hashedPass+=key.final('utf8');
+            if(user.password==hashedPass){
                 const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '3600s' });
                 return res.cookie('user',token, { maxAge: 900000, httpOnly: true }).send(user)
             }else{
