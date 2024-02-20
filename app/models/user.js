@@ -28,7 +28,7 @@ const User = sequelize.define("user", {
     timestamps: false
   });
 
-  const Product = sequelize.define("user", {
+  const Product = sequelize.define("product", {
     id: {
       type: Sequelize.BIGINT,
       autoIncrement: true,
