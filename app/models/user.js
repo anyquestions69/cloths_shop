@@ -24,9 +24,7 @@ const User = sequelize.define("user", {
       type: Sequelize.STRING,
       allowNull:false,
       set(value) {
-        // Storing passwords in plaintext in the database is terrible.
-        // Hashing the value with an appropriate cryptographic hash function is better.
-        this.setDataValue('password', bcrypt.hash(value, bcrypt.genSaltSync(8)));
+        this.setDataValue('password', bcrypt.hashSync(value, bcrypt.genSaltSync(8)));
       }
     },
     isAdmin:{
@@ -38,7 +36,7 @@ const User = sequelize.define("user", {
     timestamps: false,
     instanceMethods: {
       validPassword(password) {
-          return bcrypt.compare(password, this.password);
+          return bcrypt.compareSync(password, this.password);
       }
   }
   });
@@ -84,7 +82,7 @@ const User = sequelize.define("user", {
   const cat = [{name:"Одежда"},{name:"Обувь"}, {name:"Аксессуары"}]
 const subcat = [{name: "Свободно"}, {name: "Ожидает подтверждения"}, {name:"Забронирован"}]
 
-sequelize.sync({force: true}).then(async function (result){
+sequelize.sync({force: false}).then(async function (result){
   if((await Category.findAll()).length==0)
   await Category.bulkCreate(cat, { validate: true })
 if((await Subcategory.findAll()).length==0)
