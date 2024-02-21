@@ -83,7 +83,7 @@ class Manager{
 
     async update(req,res){
         try {
-            let {name, password} = req.body
+            let {firstname, lastname, password} = req.body
             if(name){
                 if(name.replace(' ','')=='')
                     return res.status(401).send('Заполните ФИО')
