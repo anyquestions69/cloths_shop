@@ -1,4 +1,4 @@
-const {Brand} = require('../models/user')
+const {Category} = require('../models/user')
 const { Op } = require("sequelize");
 const Sequelize = require('sequelize')
 
@@ -6,7 +6,7 @@ class Manager{
     async getAll(req,res) {  
         try {
            
-            let result= await Brand.findAll( )
+            let result= await Category.findAll( )
            
             return res.send(result)
         } catch (error) {
@@ -15,8 +15,8 @@ class Manager{
     }
     async getOne(req,res){
         try {
-            let brand = await Brand.findOne({where:{id:req.params['id']}})
-            return res.send(brand)
+            let category = await Category.findOne({where:{id:req.params['id']}})
+            return res.send(category)
         } catch (error) {
             return res.status(500).send(error)
         }
@@ -25,41 +25,41 @@ class Manager{
     async getByName(req,res){
         try{
             let name = req.query.name
-            let brand = await Brand.findAll({where:{
+            let category = await Category.findAll({where:{
                 name:{
                     [Op.like]:'%'+name+'%'
                 }
             }})
-            return res.send(brand)
+            return res.send(category)
         }catch(error){
             return res.status(500).send(error)
         }
     }
-    async addBrand(req,res){
+    async addCategory(req,res){
         try {
             let {name} = req.body
-            let exist = await Brand.findOne({where:{name}})
-            if(exist)return res.send("Такой бренд уже есть")
-            let brand = await Brand.create({name})
-            return res.send(brand)
+            let exist = await Category.findOne({where:{name}})
+            if(exist)return res.send("Такая категория уже есть")
+            let category = await Category.create({name})
+            return res.send(category)
         } catch (error) {
             return res.status(500).send(error)
         }
     }
-    async editBrand(req,res){
+    async editCategory(req,res){
         try {
             let id = req.params.id
             let {name} = req.body
-            let brand = await Brand.update({name}, {where:{id}})
-            return res.send(brand)
+            let category = await Category.update({name}, {where:{id}})
+            return res.send(category)
         } catch (error) {
             return res.status(500).send(error)
         }
     }
-    async deleteBrand(req,res){
+    async deleteCategory(req,res){
         try {
             let id = req.params.id
-            await Brand.destroy({where:{id}})
+            await Category.destroy({where:{id}})
             return res.send("Успешно удалено")
         } catch (error) {
             return res.status(500).send(error)

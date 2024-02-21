@@ -20,7 +20,7 @@ class Manager{
             
             return res.send({cart: req.session.cart, price:req.session.cart_price})
         } catch (error) {
-            return res.status(400).send(error)
+            return res.status(500).send(error)
         }
         
     }
@@ -63,7 +63,7 @@ class Manager{
            
             return res.send({cart: req.session.cart, price:req.session.cart_price})
         } catch (error) {
-            return res.status(400).send(error)
+            return res.status(500).send(error)
         }
     }
    
