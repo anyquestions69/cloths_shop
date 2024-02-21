@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require('../config/database')
-var crypto = require('crypto');
-var key = crypto.createCipher('aes-128-cbc', process.env.CRYPT_KEY);
+const bcrypt = require("bcrypt");
 
 const User = sequelize.define("user", {
     id: {
@@ -23,14 +22,25 @@ const User = sequelize.define("user", {
     },
     password: {
       type: Sequelize.STRING,
-      allowNull:false
+      allowNull:false,
+      set(value) {
+        // Storing passwords in plaintext in the database is terrible.
+        // Hashing the value with an appropriate cryptographic hash function is better.
+        this.setDataValue('password', bcrypt.hash(value, bcrypt.genSaltSync(8)));
+      }
     },
     isAdmin:{
       type:Sequelize.BOOLEAN,
-      default:false
+      defaultValue:false,
+      allowNull:false
     }
   },{
-    timestamps: false
+    timestamps: false,
+    instanceMethods: {
+      validPassword(password) {
+          return bcrypt.compare(password, this.password);
+      }
+  }
   });
 
   const Product = sequelize.define("product", {
@@ -74,15 +84,14 @@ const User = sequelize.define("user", {
   const cat = [{name:"Одежда"},{name:"Обувь"}, {name:"Аксессуары"}]
 const subcat = [{name: "Свободно"}, {name: "Ожидает подтверждения"}, {name:"Забронирован"}]
 
-sequelize.sync({force: false}).then(async function (result){
+sequelize.sync({force: true}).then(async function (result){
   if((await Category.findAll()).length==0)
   await Category.bulkCreate(cat, { validate: true })
 if((await Subcategory.findAll()).length==0)
  await Subcategory.bulkCreate(subcat, { validate: true })
 if(!(await User.findOne({where:{email:process.env.ADMIN_EMAIL}}))){
-  var hashedPass = key.update(process.env.ADMIN_PASSWORD, 'utf8', 'hex')
-  hashedPass+=key.final('hex');
- await User.create({email:process.env.ADMIN_EMAIL, password:hashedPass, firstname:"Dan", lastname:"Ivanov", isAdmin:true})
+
+ await User.create({email:process.env.ADMIN_EMAIL, password:process.env.ADMIN_PASSWORD, firstname:"Dan", lastname:"Ivanov", isAdmin:true})
 }
 
     
