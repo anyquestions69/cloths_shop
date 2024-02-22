@@ -16,7 +16,7 @@ const getPagingData = (data, page, limit) => {
 class Manager{
     async getProducts(req,res) {  
         try {
-            let {name, category, subcategory, page}=req.query
+            let {name, category, subcategory, brand, page}=req.query
             let filter =[]
             let exclude
             
@@ -28,7 +28,7 @@ class Manager{
             }
             
             if(name){
-                filter.push({activity:{
+                filter.push({name:{
                 [Op.like]:'%'+name+'%'
                 }})
             }
@@ -44,7 +44,7 @@ class Manager{
             let resData= getPagingData(result, page, 10)
             return res.send(resData)
         } catch (error) {
-            
+            return res.status(400).send(error)
         }
     }
     async getOne(req,res){
@@ -55,6 +55,25 @@ class Manager{
             return res.status(400).send(error)
         }
         
+    }
+    async addProduct(req,res){
+        try {
+            let {name, description, price, categoryId, subcategoryId} = req.body
+            let product = await Product.create({name, description,price, categoryId, subcategoryId})
+            return res.send(product)
+        } catch (error) {
+            return res.status(400).send(error)
+        }
+    }
+    async editProduct(req,res){
+        try {
+            let id = req.params.id
+            let {name, description, price, categoryId, subcategoryId} = req.body
+            let product = await Product.create({name, description,price, categoryId, subcategoryId})
+            return res.send(product)
+        } catch (error) {
+            return res.status(400).send(error)
+        }
     }
    
 }
