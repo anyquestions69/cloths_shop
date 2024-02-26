@@ -96,7 +96,7 @@ const products = [{name:"Bomber Alpha Industries", description:"Warm jacket", pr
 {name:"Adidas boots", description:"Yeezy", price:24.70, categoryId:1, subcategoryId:3, brandId:1},
 {name:"Nike bag", description:"Bag", price:76.50, categoryId:2, subcategoryId:4, brandId:2}]
 
-sequelize.sync({force: true}).then(async function (result){
+sequelize.sync({force: false}).then(async function (result){
   if((await Category.findAll()).length==0)
     await Category.bulkCreate(cat, { validate: true })
   if((await Subcategory.findAll()).length==0)

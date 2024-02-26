@@ -1,5 +1,6 @@
-FROM node:16.10.0-alpine 
-RUN apk add --no-cache tzdata
+FROM node:16-alpine
+RUN apk add tzdata
+RUN apk add make gcc g++ python3
 ENV TZ Europe/Moscow
 ENV NODE_PATH /opt/server/node_modules
 WORKDIR /opt/server/
