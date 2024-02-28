@@ -16,17 +16,34 @@ const getPagingData = (data, page, limit) => {
 class Manager{
     async getProducts(req,res) {  
         try {
-            let {name, category, subcategory, brand, page}=req.query
+            let {name, cat, subcat, brand, page}=req.query
             let filter =[]
             let exclude
             
-            if(category){
-                console.log(category)
-                filter.push({categoryId:{
-                    [Op.or]:category.split(',')
-                }})
+            if(cat){
+                console.log(cat)
+                if(cat.split(',')===Array && cat.split(',').length>1){
+                    filter.push({categoryId:{
+                        [Op.or]:cat.split(',')
+                    }})
+                }else{
+                    filter.push({categoryId:cat.split(',')[0]
+                    })
+                }
+                
             }
-            
+            if(subcat){
+                console.log(cat)
+                if(subcat.split(',')===Array && subcat.split(',').length>1){
+                    filter.push({subcategoryId:{
+                        [Op.or]:subcat.split(',')
+                    }})
+                }else{
+                    filter.push({subcategoryId:subcat.split(',')[0]
+                    })
+                }
+                
+            }
             if(name){
                 filter.push({name:{
                 [Op.like]:'%'+name+'%'
