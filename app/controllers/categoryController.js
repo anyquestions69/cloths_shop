@@ -1,4 +1,4 @@
-const {Category} = require('../models/user')
+const {Category, Subcategory} = require('../models/user')
 const { Op } = require("sequelize");
 const Sequelize = require('sequelize')
 
@@ -6,7 +6,7 @@ class Manager{
     async getAll(req,res) {  
         try {
            
-            let result= await Category.findAll( )
+            let result= await Category.findAll({include:Subcategory})
            
             return res.send(result)
         } catch (error) {
@@ -29,7 +29,7 @@ class Manager{
                 name:{
                     [Op.like]:'%'+name+'%'
                 }
-            }})
+            }, include:Subcategory})
             return res.send(category)
         }catch(error){
             return res.status(500).send(error)

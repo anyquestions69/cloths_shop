@@ -7,6 +7,7 @@ const userRouter = require('./routers/userRouter.js')
 const authRouter = require('./routers/authRouter.js')
 const productRouter = require('./routers/productRouter.js')
 const cartRouter = require('./routers/cartRouter.js')
+const categoryRouter = require('./routers/categoryRouter.js')
 const brandRouter = require('./routers/brandRouter.js')
 
 app.use(session({
@@ -29,6 +30,7 @@ app.get('/', (_req, res) => {
 
 app.use('/users', userRouter)
 app.use('/auth', authRouter)
+app.use('/category', categoryRouter)
 app.use('/product', productRouter)
 app.use('/cart', cartRouter)
 app.use('/brand', brandRouter)
