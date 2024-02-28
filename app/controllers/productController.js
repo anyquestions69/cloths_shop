@@ -19,8 +19,8 @@ class Manager{
             let {name, cat, subcat, brand, page}=req.query
             let filter =[]
             let exclude
-            
-            if(cat){
+            console.log(cat.trim().length)
+            if(cat.trim().length != 0 &&cat!==null){
                 console.log(cat)
                 if(cat.split(',')===Array && cat.split(',').length>1){
                     filter.push({categoryId:{
@@ -32,8 +32,7 @@ class Manager{
                 }
                 
             }
-            if(subcat){
-                console.log(cat)
+            if(subcat.trim().length != 0 &&subcat!==null){
                 if(subcat.split(',')===Array && subcat.split(',').length>1){
                     filter.push({subcategoryId:{
                         [Op.or]:subcat.split(',')
@@ -44,19 +43,22 @@ class Manager{
                 }
                 
             }
-            if(name){
+            if(name.trim().length != 0 &&name!==null){
                 filter.push({name:{
                 [Op.like]:'%'+name+'%'
                 }})
             }
+            console.log(filter)
             let result
 
             if(filter.length>1){
              result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:{
                 [Op.and]: filter
                 }})
+            }else if(filter.length==1){
+                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:filter[0]})
             }else{
-                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:filter[0], attributes:exclude})
+                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10})
             }
             let resData= getPagingData(result, page, 10)
             return res.send(resData)

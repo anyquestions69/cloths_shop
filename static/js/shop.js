@@ -38,13 +38,13 @@ $(document).ready(async ()=>{
         search(name, cat, subcat, brand, price)
     })
     $('.filterBrand').each(function(){
-        
+
     })
    
 }) 
 
 async function search(name,cat,subcat,brand,price){
-    let params = `/?name=${name||''}&cat=${cat||''}&subcat=${subcat}&brand=${brand||''}&price=${price||''}&`
+    let params = `/?name=${name||''}&cat=${cat||''}&subcat=${subcat||''}&brand=${brand||''}&price=${price||''}&`
     let url = `/api/product${params}`
     let products = await fetch(url)
     let itemList = await products.json()
