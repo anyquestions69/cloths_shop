@@ -44,8 +44,8 @@ $(document).ready(async ()=>{
 }) 
 
 async function search(name,cat,subcat,brand,price){
-    let params = `/?name=${name||''}&cat=${cat||''}&subcat=${subcat||''}&brand=${brand||''}&price=${price||''}&`
-    let url = `/api/product${params}`
+    let params = `?name=${name||''}&cat=${cat||''}&subcat=${subcat||''}&brand=${brand||''}&price=${price||''}&`
+    let url = `/api/product/${params}`
     let products = await fetch(url)
     let itemList = await products.json()
     $('#product_list').empty()
@@ -89,19 +89,19 @@ async function search(name,cat,subcat,brand,price){
     $('#pagination').empty()
     if(itemList.currentPage>0){
         $('#pagination').append(`
-        <a class="" href="${params}page=1">1</a><span>...</span>
+        <a class="" href="/shop${params}page=1">1</a><span>...</span>
         `)
     }
     $('#pagination').append(`
-    <a class="active" href="${params}page=${itemList.currentPage+1}">${itemList.currentPage+1}</a>
+    <a class="active" href="/shop${params}page=${itemList.currentPage+1}">${itemList.currentPage+1}</a>
     
     
     `)
     if(itemList.totalPages-itemList.currentPage>1){
-        $('#pagination').append(`<a href="${params}page=${itemList.currentPage+2}">${itemList.currentPage+2}</a>`)
+        $('#pagination').append(`<a href="/shop${params}page=${itemList.currentPage+2}">${itemList.currentPage+2}</a>`)
     }
     if(itemList.currentPage>0){
-        $('#pagination').append(`<span>...</span><a href="${params}page=${itemList.totalPages}">${itemList.totalPages}</a>`)
+        $('#pagination').append(`<span>...</span><a href="/shop{params}page=${itemList.totalPages}">${itemList.totalPages}</a>`)
     }
     $('#showingPages').text(`Показано ${itemList.Products.length} из ${itemList.totalItems}`)
 }
