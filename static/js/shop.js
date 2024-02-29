@@ -1,23 +1,24 @@
-$(document).ready(async ()=>{
+
+$(document).ready(async function(){
     const urlParams = new URLSearchParams(window.location.search)
-    var cat = urlParams.get('cat')
-    var name = urlParams.get('name')
-    var subcat = urlParams.get('subcat')
-    var brand = urlParams.get('brand')
-    var price = urlParams.get('price')
-    search(name, cat,subcat, brand, price)
+    cat = urlParams.get('cat')
+    name1 = urlParams.get('name')
+    subcat = urlParams.get('subcat')
+    brand = urlParams.get('brand')
+    price = urlParams.get('price')
+    search(name1, cat,subcat, brand, price)
 
     
     let brands = await fetch('/api/brand')
     let brandList = await brands.json()
-    $('#brandList').empty()
+    $('#brandListFilter').empty()
     for(let brand of brandList){
-        $('#brandList').append(`<li><a class="filterBrand"data-id="${brand.id}">${brand.name}</a></li>`)
+        $('#brandListFilter').append(`<li><a class="filterBrand" data-id="${brand.id}">${brand.name}</a></li>`)
     }
 
     let category = await fetch('/api/category')
     let categoryList = await category.json()
-    $('#categoryList').empty()
+    $('#categoryListFilter').empty()
     for(let cat of categoryList){
         let appenddable=`<li><a class="filterCat"  data-id="${cat.id}">${cat.name}</a>`
         
@@ -29,7 +30,7 @@ $(document).ready(async ()=>{
             appenddable+=`</ol>`
         }
         appenddable+=`</li>`
-        await $('#categoryList').append(appenddable)
+        await $('#categoryListFilter').append(appenddable)
     }
 
     $('#productSearchForm').on('submit', async function(e){
@@ -38,8 +39,30 @@ $(document).ready(async ()=>{
         search(name, cat, subcat, brand, price)
     })
     $('.filterBrand').each(function(){
-
+        $(this).on('click', function(){
+            let id=$(this).data('id')
+            if(brand==null || brand==undefined ||brand==''){
+                brand=toString($(this).data('id'))
+            }else{
+                if(!brand.split(',').find((el)=>el==id)){
+                    
+                    brand+=','+$(this).data('id')
+                    $(this).addClass('active')
+                }else{
+                    $(this).removeClass('active')
+                    brand=brand.split(',').filter(item => item != id).join(',')
+                    
+                }
+                
+            }
+            console.log(brand)
+            urlParams.set('brand',brand)
+            
+            search(name1, cat, subcat, brand, price)
+        })
     })
+    $('.filterBrand[data-id='+brand+']').addClass('active')
+    
    
 }) 
 

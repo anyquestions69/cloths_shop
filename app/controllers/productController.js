@@ -21,7 +21,6 @@ class Manager{
             let exclude
             console.log(cat.trim().length)
             if(cat.trim().length != 0 &&cat!==null){
-                console.log(cat)
                 if(cat.split(',')===Array && cat.split(',').length>1){
                     filter.push({categoryId:{
                         [Op.or]:cat.split(',')
@@ -47,6 +46,17 @@ class Manager{
                 filter.push({name:{
                 [Op.like]:'%'+name+'%'
                 }})
+            }
+            if(brand.trim().length != 0 &&brand!==null){
+                if(brand.split(',')===Array && brand.split(',').length>1){
+                    filter.push({brandId:{
+                        [Op.or]:brand.split(',')
+                    }})
+                }else{
+                    filter.push({brandId:cat.split(',')[0]
+                    })
+                }
+                
             }
             console.log(filter)
             let result
