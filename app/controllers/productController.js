@@ -19,7 +19,6 @@ class Manager{
             let {name, cat, subcat, brand, page}=req.query
             let filter =[]
             let exclude
-            console.log(cat.trim().length)
             if(cat.trim().length != 0 &&cat!==null){
                 if(cat.split(',')===Array && cat.split(',').length>1){
                     filter.push({categoryId:{
@@ -47,13 +46,15 @@ class Manager{
                 [Op.like]:'%'+name+'%'
                 }})
             }
-            if(brand.trim().length != 0 &&brand!==null){
-                if(brand.split(',')===Array && brand.split(',').length>1){
+            if(brand.trim().length != 0 &&brand!==null&&brand!=''){
+                
+                if( brand.split(',').length>1){
+                    console.log(brand.split(','))
                     filter.push({brandId:{
                         [Op.or]:brand.split(',')
                     }})
                 }else{
-                    filter.push({brandId:cat.split(',')[0]
+                    filter.push({brandId:brand.split(',')[0]
                     })
                 }
                 

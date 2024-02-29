@@ -42,7 +42,8 @@ $(document).ready(async function(){
         $(this).on('click', function(){
             let id=$(this).data('id')
             if(brand==null || brand==undefined ||brand==''){
-                brand=toString($(this).data('id'))
+                brand=new String($(this).data('id'))
+                console.log(brand)
             }else{
                 if(!brand.split(',').find((el)=>el==id)){
                     
@@ -55,7 +56,7 @@ $(document).ready(async function(){
                 }
                 
             }
-            console.log(brand)
+            
             urlParams.set('brand',brand)
             
             search(name1, cat, subcat, brand, price)
@@ -84,6 +85,7 @@ async function search(name,cat,subcat,brand,price){
                             </ul>
                         </div>
                         <div class="product__item__text">
+                        <a href="/shop/${item.id}">
                             <h6>${item.name}</h6>
                             <a href="#" class="add-cart">+ Добавить в корзину</a>
                             <div class="rating">
@@ -105,6 +107,7 @@ async function search(name,cat,subcat,brand,price){
                                     <input type="radio" id="pc-3">
                                 </label>
                             </div>
+                        </a>
                         </div>
                     </div>
         `)

@@ -17,7 +17,12 @@ class Manager{
     
     async getCart(req,res){
         try {
-            
+            if(!req.session.cart)
+            {
+                req.session.cart = [];
+            }
+            if(!req.session.cart_price)req.session.cart_price=0
+           
             return res.send({cart: req.session.cart, price:req.session.cart_price})
         } catch (error) {
             return res.status(500).send(error)

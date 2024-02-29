@@ -23,4 +23,9 @@ $(document).ready(async ()=>{
         appenddable+=`</li>`
         await $('#categoryList').append(appenddable)
     }
+
+    let price = await fetch('/api/cart/view')
+    let priceText = await price.json()
+    $('#priceHeader').text(priceText.price)
+    $('#priceHeaderAdapt').text(priceText.price)
 })
