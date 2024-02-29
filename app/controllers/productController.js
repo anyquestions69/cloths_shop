@@ -19,46 +19,49 @@ class Manager{
             let {name, cat, subcat, brand, page}=req.query
             let filter =[]
             let exclude
-            if(cat.trim().length != 0 &&cat!==null){
-                if(cat.split(',')===Array && cat.split(',').length>1){
-                    filter.push({categoryId:{
-                        [Op.or]:cat.split(',')
-                    }})
-                }else{
-                    filter.push({categoryId:cat.split(',')[0]
-                    })
+            if(req.query){
+                if(cat.trim().length != 0 &&cat!==null){
+                    if(cat.split(',')===Array && cat.split(',').length>1){
+                        filter.push({categoryId:{
+                            [Op.or]:cat.split(',')
+                        }})
+                    }else{
+                        filter.push({categoryId:cat.split(',')[0]
+                        })
+                    }
+                    
                 }
-                
-            }
-            if(subcat.trim().length != 0 &&subcat!==null){
-                if(subcat.split(',')===Array && subcat.split(',').length>1){
-                    filter.push({subcategoryId:{
-                        [Op.or]:subcat.split(',')
-                    }})
-                }else{
-                    filter.push({subcategoryId:subcat.split(',')[0]
-                    })
+                if(subcat.trim().length != 0 &&subcat!==null){
+                    if(subcat.split(',')===Array && subcat.split(',').length>1){
+                        filter.push({subcategoryId:{
+                            [Op.or]:subcat.split(',')
+                        }})
+                    }else{
+                        filter.push({subcategoryId:subcat.split(',')[0]
+                        })
+                    }
+                    
                 }
-                
-            }
-            if(name.trim().length != 0 &&name!==null){
-                filter.push({name:{
-                [Op.like]:'%'+name+'%'
-                }})
-            }
-            if(brand.trim().length != 0 &&brand!==null&&brand!=''){
-                
-                if( brand.split(',').length>1){
-                    console.log(brand.split(','))
-                    filter.push({brandId:{
-                        [Op.or]:brand.split(',')
+                if(name.trim().length != 0 &&name!==null){
+                    filter.push({name:{
+                    [Op.like]:'%'+name+'%'
                     }})
-                }else{
-                    filter.push({brandId:brand.split(',')[0]
-                    })
                 }
-                
+                if(brand.trim().length != 0 &&brand!==null&&brand!=''){
+                    
+                    if( brand.split(',').length>1){
+                        console.log(brand.split(','))
+                        filter.push({brandId:{
+                            [Op.or]:brand.split(',')
+                        }})
+                    }else{
+                        filter.push({brandId:brand.split(',')[0]
+                        })
+                    }
+                    
+                }
             }
+           
             console.log(filter)
             let result
 
@@ -74,7 +77,7 @@ class Manager{
             let resData= getPagingData(result, page, 10)
             return res.send(resData)
         } catch (error) {
-            return res.status(400).send(error)
+            return res.status(501).send(error)
         }
     }
     async getOne(req,res){
@@ -82,7 +85,7 @@ class Manager{
             let act = await Product.findOne({where:{id:req.params['id']}})
             return res.send(act)
         } catch (error) {
-            return res.status(400).send(error)
+            return res.status(501).send(error)
         }
         
     }

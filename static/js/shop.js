@@ -20,12 +20,25 @@ $(document).ready(async function(){
     let categoryList = await category.json()
     $('#categoryListFilter').empty()
     for(let cat of categoryList){
-        let appenddable=`<li><a class="filterCat"  data-id="${cat.id}">${cat.name}</a>`
+        let sc = cat.subcategories.find(({id})=>id==subcat)
+        let appenddable
+        if(sc){
+            appenddable=`<li><a class="active filterCat" href="/shop?cat=${cat.id}" data-id="${cat.id}">${cat.name}</a>`
+        }else{
+            appenddable=`<li><a class="filterCat" href="/shop?cat=${cat.id}"  data-id="${cat.id}">${cat.name}</a>`
+        }
+        
         
         if(cat.subcategories){
+            
             appenddable+=`<ol style="height:auto;padding-left:1em">`
             for(let sub of cat.subcategories){
-                appenddable+=`<li><a  class="filterSubCat" data-id="${sub.id}">${sub.name}</a></li>`
+                if(sub.id==subcat){
+                    appenddable+=`<li><a  href="/shop?subcat=${sub.id}" class="active filterSubCat" data-id="${sub.id}">${sub.name}</a></li>`
+                }else{
+                    appenddable+=`<li><a  href="/shop?subcat=${sub.id}" class="filterSubCat" data-id="${sub.id}">${sub.name}</a></li>`
+                }
+                
             }
             appenddable+=`</ol>`
         }
@@ -64,6 +77,7 @@ $(document).ready(async function(){
     })
     $('.filterBrand[data-id='+brand+']').addClass('active')
     
+    $('.filterSubCat[data-id='+subcat+']').addClass('active')
    
 }) 
 
@@ -76,18 +90,19 @@ async function search(name,cat,subcat,brand,price){
     for(let item of itemList.Products){
         $('#product_list').append(`
         <div class="product__item col-lg-4 col-md-6">
+        <a href="/shop/${item.id}">
                         <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
                            
                             <ul class="product__hover">
                                 <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Сравнить</span></a></li>
                                 <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                        <a href="/shop/${item.id}">
+                        
                             <h6>${item.name}</h6>
-                            <a href="#" class="add-cart">+ Добавить в корзину</a>
+                            <a  class="add-cart" style="cursor:pointer" data-id="${item.name}">+ Добавить в корзину</a>
+                            <h5>${item.price} р</h5>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
@@ -95,20 +110,9 @@ async function search(name,cat,subcat,brand,price){
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
-                            <h5>${item.price} р</h5>
-                            <div class="product__color__select">
-                                <label for="pc-1">
-                                    <input type="radio" id="pc-1">
-                                </label>
-                                <label class="active black" for="pc-2">
-                                    <input type="radio" id="pc-2">
-                                </label>
-                                <label class="grey" for="pc-3">
-                                    <input type="radio" id="pc-3">
-                                </label>
-                            </div>
-                        </a>
+                        
                         </div>
+                        </a>
                     </div>
         `)
     }
