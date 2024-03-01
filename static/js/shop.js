@@ -89,15 +89,18 @@ async function search(name,cat,subcat,brand,price){
     $('#product_list').empty()
     for(let item of itemList.Products){
         $('#product_list').append(`
-        <div class="product__item col-lg-4 col-md-6">
-        <a href="/shop/${item.id}">
-                        <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
-                           
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
+        <div class="product__item col-lg-4 col-md-4">
+            
+        <a href="/shop-details?id=${item.id}" class="">
+        <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
+        
+            <ul class="product__hover">
+                <li><img src="img/icon/heart.png" alt=""></li>
+                <li><img src="img/icon/search.png" alt=""></li>
+            </ul>
+
+         
+        </div> </a>
                         <div class="product__item__text">
                         
                             <h6>${item.name}</h6>
@@ -112,8 +115,8 @@ async function search(name,cat,subcat,brand,price){
                             </div>
                         
                         </div>
-                        </a>
-                    </div>
+                       
+                    </div> 
         `)
     }
     $('#pagination').empty()

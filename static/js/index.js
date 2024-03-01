@@ -35,19 +35,23 @@ $(document).ready(async ()=>{
     for(let prod of trendProductList.Products){
         if(prod.id%2==0){
             $('#trendProducts').append(`
-            <a href="/shop/${prod.id}">
-            <div class="product__item sale col-lg-3 col-md-4">
             
+            <div class="product__item sale col-lg-3 col-md-4">
+            <a href="/shop-details?id=${prod.id}" class="">
                         <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
+                        
                             <span class="label">Sale</span>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><img src="img/icon/heart.png" alt=""></li>
+                                <li><img src="img/icon/search.png" alt=""></li>
                             </ul>
-                        </div>
+
+                         
+                        </div> </a>
                         <div class="product__item__text">
+                        
                             <h6>${prod.name}</h6>
-                            <span href="#" class="add-cart" data-id=${prod.id}>+ Добавить в корзину</span>
+                            <a class="add-cart" data-id=${prod.id}>+ Добавить в корзину</a>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -70,24 +74,27 @@ $(document).ready(async ()=>{
                         </div>
                        
                     </div>
-                    </a>
+                   
             `)
         }else{
             $('#trendProducts').append(`
-            <a href="/shop/${prod.id}">
+            
             <div class="product__item col-lg-3 col-md-4">
             
-                            <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
-                               
-                                <ul class="product__hover">
-                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                                </ul>
-                            </div>
+            <a href="/shop-details?id=${prod.id}" class="">
+            <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
+            
+                <ul class="product__hover">
+                    <li><img src="img/icon/heart.png" alt=""></li>
+                    <li><img src="img/icon/search.png" alt=""></li>
+                </ul>
+
+             
+            </div> </a>
                             <div class="product__item__text">
                             
                                 <h6>${prod.name}</h6>
-                                <span  class="add-cart" style="cursor:pointer" data-id="${prod.name}">+ Добавить в корзину</span>
+                                <a  class="add-cart" style="cursor:pointer" data-id="${prod.name}">+ Добавить в корзину</a>
                                 <h5>${prod.price} р</h5>
                                 <div class="rating">
                                     <i class="fa fa-star-o"></i>
@@ -99,7 +106,7 @@ $(document).ready(async ()=>{
                             
                             </div>
                            
-                        </div> </a>`)
+                        </div> `)
         }
         
     }
@@ -109,20 +116,23 @@ $(document).ready(async ()=>{
     console.log(trendProductList)
     $('#hotSales').empty()
     for(let prod of trendProductList.Products){
-        if(prod.id%2==0){
+        
             $('#hotSales').append(`
             <div class="product__item sale col-lg-3 col-md-4">
-            <a href="/shop/${prod.id}">
-                        <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
-                            <span class="label">Sale</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
+           
+            <a href="/shop-details?id=${prod.id}" class="">
+            <div class="product__item__pic set-bg" style="background:url('../img/product/product-2.jpg')">
+            
+                <ul class="product__hover">
+                    <li><img src="img/icon/heart.png" alt=""></li>
+                    <li><img src="img/icon/search.png" alt=""></li>
+                </ul>
+
+             
+            </div> </a>
                         <div class="product__item__text">
                             <h6>${prod.name}</h6>
-                            <a href="#" class="add-cart" data-id=${prod.id}>+ Добавить в корзину</a>
+                            <a class="add-cart" data-id=${prod.id}>+ Добавить в корзину</a>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -143,38 +153,10 @@ $(document).ready(async ()=>{
                                 </label>
                             </div>
                         </div>
-                        </a>
+                       
                     </div>
             `)
-        }else{
-            $('#trendProducts').append(`
-            
-            <div class="product__item col-lg-3 col-md-4">
-            <a href="/shop/${prod.id}">
-                            <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
-                               
-                                <ul class="product__hover">
-                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                            
-                                <h6>${prod.name}</h6>
-                                <span  class="add-cart" style="cursor:pointer" data-id="${prod.name}">+ Добавить в корзину</span>
-                                <h5>${prod.price} р</h5>
-                                <div class="rating">
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </div>
-                            
-                            </div>
-                            </a>
-                        </div>`)
-        }
+        
         
     }
     })
