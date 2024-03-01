@@ -87,7 +87,10 @@ const Brand = sequelize.define('brand', {
   Category.hasMany(Subcategory, { onDelete: "cascade" })
   Category.hasMany(Product, { onDelete: "cascade" })
   Subcategory.hasMany(Product, { onDelete: "cascade" })
+  Product.belongsTo(Subcategory)
+  Product.belongsTo(Category)
   Brand.hasMany(Product, {onDelete:'cascade'})
+  Product.belongsTo(Brand)
   const cat = [{name:"Одежда"},{name:"Обувь"}, {name:"Аксессуары"}]
 const subcat = [{name: "Куртки и пальто", categoryId:1}, {name: "Свитеры и толстовки", categoryId:1}, {name:"Штаны и брюки", categoryId:1}, {name: "Кроссовки и кеды", categoryId:2},{name:"Сумки", categoryId:3}]
 const brands = [{name:"Adidas"}, {name:"Alpha Industries"}, {name:"Nike"}]

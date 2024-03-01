@@ -5,12 +5,16 @@ $(document).ready(async function(){
     console.log(url)
     fetch(url).then(async (res)=>{
         let item = await res.json()
-        console.log(item)
         document.title=item.name
         $('#title').empty().text(item.name)
-        $('#priceTag').text(item.price)
-        $('#description').text(item.description)
-        let response = await fetch('/api/category')
+        $('#priceTag').text(item.price+' ₽')
+        $('#description').text(item.brand.name)
+        $('#subCatTitle').text(item.subcategory.name)
+        $('#breadSub').text(item.subcategory.name).attr('href','/shop?sub='+item.subcategory.id)
+        $('#breadCat').text(item.category.name).attr('href','/shop?cat='+item.category.id)
+        $('#breadTitle').empty().text(item.name)
+        $('#fullDescription').html(item.description)
+        $('#catTitle').text(item.category.name)
     })
     
 

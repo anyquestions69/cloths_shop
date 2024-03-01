@@ -51,7 +51,7 @@ $(document).ready(async ()=>{
                         <div class="product__item__text">
                         
                             <h6>${prod.name}</h6>
-                            <a class="add-cart" data-id=${prod.id}>+ Добавить в корзину</a>
+                            <a style="cursor:pointer" class="add-cart" data-id=${prod.id}>+ Добавить в корзину</a>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>

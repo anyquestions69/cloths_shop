@@ -1,4 +1,4 @@
-const {Product, Subcategory, Category} = require('../models/user')
+const {Product, Subcategory, Category, Brand} = require('../models/user')
 const { Op } = require("sequelize");
 const Sequelize = require('sequelize')
 
@@ -83,14 +83,12 @@ class Manager{
     async getOne(req,res){
         try {
             console.log(req.params)
-            let act = await Product.findOne({where:{id:req.params['id']}, include:{
-                model:Subcategory,
-                through:{
-                    attributes:['name']
-                }
-             }})
+            let act = await Product.findOne({where:{id:req.params['id']}, include:[
+                Subcategory, Category, Brand]
+             })
             return res.send(act)
         } catch (error) {
+            console.log(error)
             return res.status(501).send(error)
         }
         
