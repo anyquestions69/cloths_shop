@@ -23,14 +23,29 @@ $(document).ready(async ()=>{
         appenddable+=`</li>`
         await $('#categoryList').append(appenddable)
     }
-
+    cartView()
+   
+    $('.add-cart').each(function(){
+        $(this).on('click', async function(e){
+            e.preventDefault();
+            let id = $(this).data('id')
+            let res = await fetch('/api/cart/add', {
+                method:'POST', 
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                  },
+                body:JSON.stringify({id:id})
+            })
+            let cart= await res.json()
+            console.log(cart)
+            cartView()
+        })
+    })
+   
+})
+async function cartView() { 
     let price = await fetch('/api/cart/view')
     let priceText = await price.json()
     $('#priceHeader').text(priceText.price)
     $('#priceHeaderAdapt').text(priceText.price)
-    /* $('#search-form').on('submit', async function(e){
-        e.preventDefault();
-        location
-    }) */
-   
-})
+ }

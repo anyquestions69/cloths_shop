@@ -31,6 +31,7 @@ class Manager{
     }
     async addProduct(req,res){
         try {
+            
             if(!req.session.cart)
             {
                 req.session.cart = [];
@@ -38,7 +39,7 @@ class Manager{
             if(!req.session.cart_price)req.session.cart_price=0
            
             let {id} = req.body
-           
+            if(id==NaN)return res.status(503).send("id is nan")
             let count = 0;
 
             for(let i = 0; i < req.session.cart.length; i++)

@@ -13,14 +13,14 @@ $(document).ready(async function(){
     let brandList = await brands.json()
     $('#brandListFilter').empty()
     for(let brand of brandList){
-        $('#brandListFilter').append(`<li><a class="filterBrand" data-id="${brand.id}">${brand.name}</a></li>`)
+        $('#brandListFilter').append(`<li><a class="filterBrand" style="cursor:pointer" data-id="${brand.id}">${brand.name}</a></li>`)
     }
 
     let category = await fetch('/api/category')
     let categoryList = await category.json()
     $('#categoryListFilter').empty()
     for(let cat of categoryList){
-        let sc = cat.subcategories.find(({id})=>id==subcat)
+        let sc = await cat.subcategories.find(({id})=>id==subcat) 
         let appenddable
         if(sc){
             appenddable=`<li><a class="active filterCat" href="/shop?cat=${cat.id}" data-id="${cat.id}">${cat.name}</a>`
@@ -45,7 +45,9 @@ $(document).ready(async function(){
         appenddable+=`</li>`
         await $('#categoryListFilter').append(appenddable)
     }
-
+    if(!subcat && cat){
+        $(`.filterCat[data-id=${cat}]`).addClass('active')
+    }
     $('#productSearchForm').on('submit', async function(e){
         e.preventDefault()
         let name = $('#searchInput').val()
@@ -54,6 +56,7 @@ $(document).ready(async function(){
     $('.filterBrand').each(function(){
         $(this).on('click', function(){
             let id=$(this).data('id')
+            $(this).addClass('active')
             if(brand==null || brand==undefined ||brand==''){
                 brand=new String($(this).data('id'))
                 console.log(brand)
@@ -61,7 +64,7 @@ $(document).ready(async function(){
                 if(!brand.split(',').find((el)=>el==id)){
                     
                     brand+=','+$(this).data('id')
-                    $(this).addClass('active')
+                    
                 }else{
                     $(this).removeClass('active')
                     brand=brand.split(',').filter(item => item != id).join(',')
@@ -75,9 +78,14 @@ $(document).ready(async function(){
             search(name1, cat, subcat, brand, price)
         })
     })
-    $('.filterBrand[data-id='+brand+']').addClass('active')
+    if(brand){
+        $('.filterBrand[data-id='+brand+']').addClass('active')
+    }
     
-    $('.filterSubCat[data-id='+subcat+']').addClass('active')
+    if(subcat){
+        $('.filterSubCat[data-id='+subcat+']').addClass('active')
+    }
+    
    
 }) 
 
@@ -92,7 +100,7 @@ async function search(name,cat,subcat,brand,price){
         <div class="product__item col-lg-4 col-md-4">
             
         <a href="/shop-details?id=${item.id}" class="">
-        <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
+        <div class="product__item__pic set-bg" style="background:url('../img/product/product-${item.id%14}.jpg')">
         
             <ul class="product__hover">
                 <li><img src="img/icon/heart.png" alt=""></li>
@@ -104,7 +112,7 @@ async function search(name,cat,subcat,brand,price){
                         <div class="product__item__text">
                         
                             <h6>${item.name}</h6>
-                            <a  class="add-cart" style="cursor:pointer" data-id="${item.name}">+ Добавить в корзину</a>
+                            <a  class="add-cart" style="cursor:pointer" data-id="${item.id}">+ Добавить в корзину</a>
                             <h5>${item.price} р</h5>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>

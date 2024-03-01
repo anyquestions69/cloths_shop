@@ -73,7 +73,7 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Войти</a>
+                                <a class="active" href="/auth">Войти</a>
                                 
                             </div>
                             <div class="header__top__hover">
@@ -93,14 +93,14 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="./index.html"><h3>GORSHOP.</h3></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li ><a href="./index">Главная</a></li>
-                            <li class="active"><a href="./shop">Товары</a>
+                            <li ><a href="./shop">Товары</a>
                                 <ul class="dropdown" id="categoryList">
                                     <li><a href="./about.html">Одежда</a></li>
                                     <li><a href="./shop-details.html">Обувь</a></li>
@@ -127,40 +127,67 @@
     </header>
     <!-- Header Section End -->
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__text">
-                        <h4>Авторизация</h4>
-                        <div class="breadcrumb__links">
-                            <a href="./index.html">Главная</a>
-                            <span>Авторизация</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+
 
     <!-- About Section Begin -->
-    <section class="about spad">
+    <section class="about mb-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 mx-auto" >
-                    <form action="">
-                        <div class="form-group">
-                          <label for="">Email</label>
-                          <input type="email" class="form-control" name="" id="email" aria-describedby="emailHelpId" placeholder="">
-                          <small id="emailHelpId" class="form-text text-muted">ivanov@mail.ru</small>
+                <div class="col-lg-4 mx-auto " >
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                role="tab">Вход</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Регистрация</a>
+                            </li>
+                        </ul>
+                        <br>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                                <form action="">
+                                    <div class="form-group">
+                                      <label for="emailLog">Email</label>
+                                      <input type="email" class="form-control" name="" id="emailLog" aria-describedby="emailHelpId" placeholder="">
+                                      <small id="emailHelpId" class="form-text text-muted">ivanov@mail.ru</small>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="">Пароль</label>
+                                      <input type="password" class="form-control" name="" id="passwordLog" placeholder="">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Войти</button>
+                                </form>
+                            </div>
+                            
+                            <div class="tab-pane" id="tabs-6" role="tabpanel">
+                                <form action="">
+                                    <div class="form-group">
+                                      <label for="nameReg">Фамилия Имя Отчество</label>
+                                      <input type="text" class="form-control" name="" id="nameReg" aria-describedby="helpId" placeholder="">
+                                      <small id="helpId" class="form-text text-muted">Иванов Иван Иванович</small>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="emailReg">Email</label>
+                                      <input type="email" class="form-control" name="" id="emailReg" aria-describedby="emailHelpId" placeholder="">
+                                      <small id="emailHelpId" class="form-text text-muted">ivanov@mail.ru</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                      <label for="passwordReg">Пароль</label>
+                                      <input type="password" class="form-control" name="" id="passwordReg" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="repassReg">Повторите пароль</label>
+                                        <input type="password" class="form-control" name="" id="repassReg" placeholder="">
+                                      </div>
+                                      <button type="submit" class="btn btn-primary">Создать учетную запись</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="form-group">
-                          <label for="">Пароль</label>
-                          <input type="password" class="form-control" name="" id="password" placeholder="">
-                        </div>
-                    </form>
+                    </div>
+                    
                 </div>
             </div>
             

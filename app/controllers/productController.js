@@ -61,7 +61,6 @@ class Manager{
                 }
             }
            
-            console.log("name "+name)
             let result
 
             if(filter.length>1){
