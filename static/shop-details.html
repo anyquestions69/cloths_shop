@@ -99,8 +99,8 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="./index">Главная</a></li>
-                            <li><a href="./shop">Товары</a>
+                            <li ><a href="./index">Главная</a></li>
+                            <li class="active"><a href="./shop">Товары</a>
                                 <ul class="dropdown" id="categoryList">
                                     <li><a href="./about.html">Одежда</a></li>
                                     <li><a href="./shop-details.html">Обувь</a></li>
@@ -469,12 +469,13 @@
 </footer>
 <!-- Footer Section End -->
 
-<!-- Search Begin -->
-<div class="search-model">
+ <!-- Search Begin -->
+ <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Поиск.....">
+        <form class="search-model-form" method="GET" action="/shop" id="search-form">
+            <input type="text" name="name"  placeholder="Поиск.....">
+            
         </form>
     </div>
 </div>

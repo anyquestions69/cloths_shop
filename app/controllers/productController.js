@@ -44,13 +44,12 @@ class Manager{
                 }
                 if(name.trim().length != 0 &&name!==null){
                     filter.push({name:{
-                    [Op.like]:'%'+name+'%'
+                    [Op.iLike]:'%'+name+'%'
                     }})
                 }
                 if(brand.trim().length != 0 &&brand!==null&&brand!=''){
                     
                     if( brand.split(',').length>1){
-                        console.log(brand.split(','))
                         filter.push({brandId:{
                             [Op.or]:brand.split(',')
                         }})
@@ -62,7 +61,7 @@ class Manager{
                 }
             }
            
-            console.log(filter)
+            console.log("name "+name)
             let result
 
             if(filter.length>1){
@@ -106,7 +105,7 @@ class Manager{
         try {
             let id = req.params.id
             let {name, description, price, categoryId, subcategoryId} = req.body
-            let product = await Product.create({name, description,price, categoryId, subcategoryId})
+            let product = await Category.update({name,description, price, categoryId, subcategoryId}, {where:{id}})
             return res.send(product)
         } catch (error) {
             return res.status(400).send(error)
