@@ -36,6 +36,37 @@ $(document).ready(async function(){
             )
             i++
         }
+        let j=0
+        for(let size of item.prod_sizes){
+            if(j==1){
+                $('#sizeList').append(`
+                <label class="active" for="size-${size.sizeId}">${size.size.name}
+                    <input type="radio" checked id="size-${size.sizeId}" data-id="${j}" class="sizeRadio">
+                </label>`)
+            }else{
+                $('#sizeList').append(`
+            <label for="size-${size.sizeId}">${size.size.name}
+                <input type="radio" id="size-${size.sizeId}" data-id="${j}" class="sizeRadio">
+            </label>`)
+            }
+            
+            j++
+        }
+        
+        //await $('.sizeRadio').first().prop("checked", true)
+        
+       
+        $('.sizeRadio').each(async function(){
+           
+            $(this).on('click',async ()=>{
+                $('#sizeList label').removeClass('active')
+                let li = await $('#sizeList label').get($(this).data('id'))
+                $(li).addClass('active')
+                let count = item.prod_sizes[$(this).data('id')].count
+                $('#sizeCount').text(count+' шт')
+            })
+        })
+        
         $('#tabs-1').addClass('active')
         $('.nav-link[href="#tabs-1"').addClass('active')
        
