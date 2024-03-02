@@ -1,4 +1,4 @@
-const {Product, Subcategory, Category, Brand} = require('../models/user')
+const {Product, Subcategory, Category, Brand, Size, ProdSize, Image, SizeGroup} = require('../models/user')
 const { Op } = require("sequelize");
 const Sequelize = require('sequelize')
 
@@ -66,11 +66,11 @@ class Manager{
             if(filter.length>1){
              result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:{
                 [Op.and]: filter
-                }})
+                }, include: [Image, Size]})
             }else if(filter.length==1){
-                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:filter[0]})
+                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, where:filter[0], include: [Image, Size]})
             }else{
-                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10})
+                result= await Product.findAndCountAll( {offset: page>=1?((page-1)*10):0, limit: 10, include: [Image, Size]})
             }
             let resData= getPagingData(result, page, 10)
             return res.send(resData)
@@ -82,7 +82,7 @@ class Manager{
         try {
             console.log(req.params)
             let act = await Product.findOne({where:{id:req.params['id']}, include:[
-                Subcategory, Category, Brand]
+                Subcategory, Category, Brand,  {model:ProdSize, include:{model:Size, include:SizeGroup}}, Image]
              })
             return res.send(act)
         } catch (error) {
@@ -93,8 +93,14 @@ class Manager{
     }
     async addProduct(req,res){
         try {
-            let {name, description, price, categoryId, subcategoryId} = req.body
+            let {name, description, price, categoryId, subcategoryId, sizes} = req.body
+           
             let product = await Product.create({name, description,price, categoryId, subcategoryId})
+            let size = await Size.findAll({where:{id:{[Op.or]:sizes}}})
+            for(let s of size){
+                await product.addSize(s, {through:{count:1}})
+            }
+            product = await product.save()
             return res.send(product)
         } catch (error) {
             return res.status(400).send(error)
