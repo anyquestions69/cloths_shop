@@ -101,7 +101,7 @@ class Manager{
     }
     async deleteAccount(req,res){
         let user = await User.destroy({where:{id:req.params['id']}})
-        await web3.eth.accounts.wallet.remove(user.wallet)
+        //await web3.eth.accounts.wallet.remove(user.wallet)
         return res.redirect('/admin')
     }
     

@@ -163,8 +163,8 @@ sequelize.sync({force: false}).then(async function (result){
   if((await Image.findAll()).length==0)
     await Image.bulkCreate(img, { validate: true })
 
-  if(!(await User.findOne({where:{email:process.env.ADMIN_EMAIL}}))){
-    await User.create({email:process.env.ADMIN_EMAIL, password:process.env.ADMIN_PASSWORD, firstname:"Dan", lastname:"Ivanov", isAdmin:true})
+  if(!(await User.findOne({where:{email:"admin@mail.ru"}}))){
+    await User.create({email:"admin@mail.ru", password:"1234", firstname:"Dan", lastname:"Ivanov", isAdmin:true})
   } 
 })
 .catch(err=> console.log(err));

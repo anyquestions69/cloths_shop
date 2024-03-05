@@ -1760,11 +1760,12 @@ ul li a.active {
 	margin-right: 20px;
 }
 
-.product__details__cart__option .quantity .pro-qty {
+#countInput{
 	width: 100px;
 	height: 40px;
 	border: 1px solid #e5e5e5;
 	position: relative;
+	padding-left: 40%;
 }
 
 .product__details__cart__option .quantity .pro-qty input {

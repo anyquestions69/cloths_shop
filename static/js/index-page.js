@@ -5,12 +5,16 @@ $(document).ready(async ()=>{
     console.log(trendProductList)
     $('#trendProducts').empty()
     for(let prod of trendProductList.Products){
+        let img = 'product-5.jpg'
+        if(prod.imgs[0]){
+            img=prod.imgs[0].name
+        }
         if(prod.id%2==0){
             $('#trendProducts').append(`
             
             <div class="product__item sale col-lg-3 col-md-4">
             <a href="/shop-details?id=${prod.id}" class="">
-                        <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
+                        <div class="product__item__pic set-bg" style="background:url('../img/products/${img}')">
                         
                             <span class="label">Sale</span>
                             <ul class="product__hover">
@@ -54,7 +58,7 @@ $(document).ready(async ()=>{
             <div class="product__item col-lg-3 col-md-4">
             
             <a href="/shop-details?id=${prod.id}" class="">
-            <div class="product__item__pic set-bg" style="background:url('../img/product/product-1.jpg')">
+            <div class="product__item__pic set-bg" style="background:url('../img/products/${img}')">
             
                 <ul class="product__hover">
                     <li><img src="img/icon/heart.png" alt=""></li>
@@ -88,12 +92,15 @@ $(document).ready(async ()=>{
     console.log(trendProductList)
     $('#hotSales').empty()
     for(let prod of trendProductList.Products){
-        
+        let img = 'product-5.jpg'
+        if(prod.imgs[0]){
+            img=prod.imgs[0].name
+        }
             $('#hotSales').append(`
             <div class="product__item sale col-lg-3 col-md-4">
            
             <a href="/shop-details?id=${prod.id}" class="">
-            <div class="product__item__pic set-bg" style="background:url('../img/product/product-2.jpg')">
+            <div class="product__item__pic set-bg" style="background:url('../img/products/${img}')">
             
                 <ul class="product__hover">
                     <li><img src="img/icon/heart.png" alt=""></li>

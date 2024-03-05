@@ -147,7 +147,7 @@
                         <br>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-5" role="tabpanel">
-                                <form action="">
+                                <form  id="logForm">
                                     <div class="form-group">
                                       <label for="emailLog">Email</label>
                                       <input type="email" class="form-control" name="" id="emailLog" aria-describedby="emailHelpId" placeholder="">
@@ -162,12 +162,17 @@
                             </div>
                             
                             <div class="tab-pane" id="tabs-6" role="tabpanel">
-                                <form action="">
+                                <form  id="regForm">
                                     <div class="form-group">
-                                      <label for="nameReg">Фамилия Имя Отчество</label>
-                                      <input type="text" class="form-control" name="" id="nameReg" aria-describedby="helpId" placeholder="">
-                                      <small id="helpId" class="form-text text-muted">Иванов Иван Иванович</small>
+                                      <label for="lastnameReg">Фамилия </label>
+                                      <input type="text" class="form-control" name="" id="lastnameReg" aria-describedby="helpId" placeholder="">
+                                      <small id="helpId" class="form-text text-muted">Иванов</small>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="firstnameReg">Имя </label>
+                                        <input type="text" class="form-control" name="" id="firstnameReg" aria-describedby="helpId" placeholder="">
+                                        <small id="helpId" class="form-text text-muted">Иван</small>
+                                      </div>
                                     <div class="form-group">
                                       <label for="emailReg">Email</label>
                                       <input type="email" class="form-control" name="" id="emailReg" aria-describedby="emailHelpId" placeholder="">

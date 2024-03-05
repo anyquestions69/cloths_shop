@@ -96,11 +96,15 @@ async function search(name,cat,subcat,brand,price){
     let itemList = await products.json()
     $('#product_list').empty()
     for(let item of itemList.Products){
+        let img = 'product-5.jpg'
+        if(item.imgs[0]){
+            img=item.imgs[0].name
+        }
         $('#product_list').append(`
         <div class="product__item col-lg-4 col-md-4">
             
         <a href="/shop-details?id=${item.id}" class="">
-        <div class="product__item__pic set-bg" style="background:url('../img/product/product-${item.id%14}.jpg')">
+        <div class="product__item__pic set-bg" style="background:url('../img/products/${img}')">
         
             <ul class="product__hover">
                 <li><img src="img/icon/heart.png" alt=""></li>

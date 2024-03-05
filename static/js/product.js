@@ -2,7 +2,6 @@ $(document).ready(async function(){
     const urlParams = new URLSearchParams(window.location.search)
     id = urlParams.get('id')
     var url = `/api/product/${id}/`
-    console.log(url)
     fetch(url).then(async (res)=>{
         let item = await res.json()
         document.title=item.name
@@ -38,11 +37,13 @@ $(document).ready(async function(){
         }
         let j=0
         for(let size of item.prod_sizes){
-            if(j==1){
+            if(j==0){
                 $('#sizeList').append(`
                 <label class="active" for="size-${size.sizeId}">${size.size.name}
                     <input type="radio" checked id="size-${size.sizeId}" data-id="${j}" class="sizeRadio">
                 </label>`)
+                $('#sizeCount').text(size.count+' шт')
+                $('#countInput').attr({"max": size.count})
             }else{
                 $('#sizeList').append(`
             <label for="size-${size.sizeId}">${size.size.name}
@@ -64,6 +65,7 @@ $(document).ready(async function(){
                 $(li).addClass('active')
                 let count = item.prod_sizes[$(this).data('id')].count
                 $('#sizeCount').text(count+' шт')
+                $('#countInput').attr({"max": count})
             })
         })
         
