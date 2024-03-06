@@ -51,7 +51,7 @@ class Manager{
                 
             })
             const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '14400s' });
-            return res.cookie('user',token, { maxAge: 9000000, httpOnly: true }).send(user.email)
+            return res.cookie('user',token, { maxAge: 9000000, httpOnly: true }).send(token)
         }catch(e){
             console.log(e)
             return res.status(404).send('Ошибка')
@@ -67,7 +67,7 @@ class Manager{
                 return res.status(401).send({error:'Такого email не существует'})
             if(bcrypt.compareSync(password, user.password)){
                 const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '3600s' });
-                return res.cookie('user',token, { maxAge: 900000, httpOnly: true }).send(user)
+                return res.cookie('user',token, { maxAge: 900000, httpOnly: true }).send(token)
             }else{
                 return res.status(404).send({error:'Неверный пароль'})
             }

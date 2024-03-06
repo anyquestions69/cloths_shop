@@ -48,4 +48,7 @@ async function cartView() {
     let priceText = await price.json()
     $('#priceHeader').text(priceText.price)
     $('#priceHeaderAdapt').text(priceText.price)
+    $('#cartCountMobile').text(priceText.cart.length)    
+    $('#cartCount').text(priceText.cart.length)
+
  }

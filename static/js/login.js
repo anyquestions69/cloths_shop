@@ -1,8 +1,10 @@
 $(document).ready(async function(){
     $('#logForm').on('submit',async function(e){
         e.preventDefault()
-        let email = $('emailLog').val()
-        let password = $('passwordLog').val()
+        let email = $('#emailLog').val()
+        let password = $('#passwordLog').val()
+        console.log(email)
+        console.log(password)
         let result = await fetch('/api/auth/login', {
             method:'POST',
             headers: {
@@ -12,12 +14,13 @@ $(document).ready(async function(){
             password:password})
         })
         let session = await result.json()
+        if(result.ok)location.href="/index"
         console.log(session)
     })
     $('#regForm').on('submit',async function(e){
         e.preventDefault()
-        let logemail = $('emailReg').val()
-        let logpassword = $('passwordReg').val()
+        let logemail = $('#emailReg').val()
+        let logpassword = $('#passwordReg').val()
         let firstname = $('#firstnameReg').val()
         let lastname = $('#lastnameReg').val()
         let repass = $('#repassReg').val()
@@ -33,5 +36,6 @@ $(document).ready(async function(){
         })
         let session = await result.json()
         console.log(session)
+        if(result.ok)location.href="/index"
     })
 })
