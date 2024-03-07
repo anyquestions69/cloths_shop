@@ -32,16 +32,16 @@ class Manager{
             let {firstname, lastname, email, password,repass} = req.body
             if(email)
                 if(email.replace(' ','')=='')
-                    return res.status(401).send('Заполните email')
+                    return res.status(401).send({error:'Заполните email'})
             let re = /(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})/g
             if(re.test(email) | re.test(password))
-                return res.status(401).send('Не пытайтесь взломать нас')
+                return res.status(401).send({error:'Не пытайтесь взломать нас'})
             if(repass!=password)
-                return res.status(401).send('Пароли не совпадают')
+                return res.status(401).send({error:'Пароли не совпадают'})
            
             let exists = await User.findOne({where:{email:email}})
             if(exists)
-                return res.status(401).send('Пользователь с таким именем уже существует. Попросите администратора удалить Ваш старый аккаунт прежде чем создавать новый.')
+                return res.status(401).send({error:'Пользователь с таким именем уже существует. Попросите администратора удалить Ваш старый аккаунт прежде чем создавать новый.'})
            
             let user = await User.create({
                 firstname,
@@ -51,10 +51,10 @@ class Manager{
                 
             })
             const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '14400s' });
-            return res.cookie('user',token, { maxAge: 9000000, httpOnly: true }).send(token)
+            return res.cookie('user',token, { maxAge: 9000000, httpOnly: true }).send({token:token})
         }catch(e){
             console.log(e)
-            return res.status(404).send('Ошибка')
+            return res.status(404).send({error:'Ошибка'})
         }
     }
 
@@ -66,8 +66,8 @@ class Manager{
             if(!user)
                 return res.status(401).send({error:'Такого email не существует'})
             if(bcrypt.compareSync(password, user.password)){
-                const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '3600s' });
-                return res.cookie('user',token, { maxAge: 900000, httpOnly: true }).send(token)
+                const token = jwt.sign({id:user.id, email:user.email}, process.env.TOKEN_SECRET, { expiresIn: '14400s' });
+                return res.cookie('user',token, { maxAge: 9000000, httpOnly: true }).send({token})
             }else{
                 return res.status(404).send({error:'Неверный пароль'})
             }
@@ -104,7 +104,12 @@ class Manager{
         //await web3.eth.accounts.wallet.remove(user.wallet)
         return res.redirect('/admin')
     }
-    
+    /* async check(req,res){
+        try {
+        } catch (error) {
+            
+        }
+    } */
     
 }
 let manager = new Manager()

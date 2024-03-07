@@ -1,5 +1,5 @@
 $(document).ready(async ()=>{
-   
+   let authRes = await fetch()
     let brands = await fetch('/api/brand')
     let brandList = await brands.json()
     $('#brandList').empty()

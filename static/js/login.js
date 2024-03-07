@@ -13,9 +13,13 @@ $(document).ready(async function(){
             body:JSON.stringify({email:email,
             password:password})
         })
-        let session = await result.json()
-        if(result.ok)location.href="/index"
-        console.log(session)
+        let response = await result.json()
+        if(result.ok){
+            $('#errorMsg').text('')
+            location.href="/index"
+        }else{
+            $('#errorMsg').text(response.error)
+        }
     })
     $('#regForm').on('submit',async function(e){
         e.preventDefault()
@@ -34,8 +38,12 @@ $(document).ready(async function(){
             body:JSON.stringify({email:logemail,
             password:logpassword, firstname, lastname, repass})
         })
-        let session = await result.json()
-        console.log(session)
-        if(result.ok)location.href="/index"
+        let response = await result.json()
+        if(result.ok){
+            $('#errorMsg').text('')
+            location.href="/index"
+        }else{
+            $('#errorMsg').text(response.error)
+        }
     })
 })
