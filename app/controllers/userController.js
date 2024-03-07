@@ -104,12 +104,23 @@ class Manager{
         //await web3.eth.accounts.wallet.remove(user.wallet)
         return res.redirect('/admin')
     }
-    /* async check(req,res){
+    async check(req,res){
         try {
+            const token = req.cookies.user
+            if (token == null) return res.sendStatus(401)
+            await jwt.verify(token, process.env.TOKEN_SECRET, async(err, user) => {
+                if (err) return res.sendStatus(403)
+                let exists = await User.findOne({where:{id:user.id}})
+                if(exists){
+                    return res.send({email:user.email})
+                }else{
+                    return res.sendStatus(403)
+                }
+            })
         } catch (error) {
-            
+            return res.sendStatus(400)
         }
-    } */
+    }
     
 }
 let manager = new Manager()

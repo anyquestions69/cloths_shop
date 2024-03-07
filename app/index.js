@@ -9,6 +9,21 @@ const productRouter = require('./routers/productRouter.js')
 const cartRouter = require('./routers/cartRouter.js')
 const categoryRouter = require('./routers/categoryRouter.js')
 const brandRouter = require('./routers/brandRouter.js')
+const multer = require('multer')
+const storageConfig = multer.diskStorage({
+  destination: (req, file, cb) =>{
+      cb(null, "img");
+  },
+  filename: (req, file, cb) =>{
+      let num =uuid.v4()
+      cb(null, num+'.'+file.mimetype.split('/')[1]);
+  }
+});
+
+
+
+app.use(multer({storage:storageConfig, dest:"img"}).array('image'));
+
 
 app.use(session({
 	secret : '1234567890abcdefghijklmnopqrstuvwxyz',

@@ -93,9 +93,15 @@ class Manager{
     }
     async addProduct(req,res){
         try {
-            let {name, description, price, categoryId, subcategoryId, sizes} = req.body
-           
+            let {name, description, price, categoryId, subcategoryId, sizes, prodsize} = req.body
+           let imgs = req.files
             let product = await Product.create({name, description,price, categoryId, subcategoryId})
+            if(imgs){
+                for(let img of imgs){
+                    comsole.log(img)
+                    await product.addImage({name:img.name})
+                }
+            }
             let size = await Size.findAll({where:{id:{[Op.or]:sizes}}})
             for(let s of size){
                 await product.addSize(s, {through:{count:1}})

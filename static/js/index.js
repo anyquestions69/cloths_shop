@@ -1,5 +1,15 @@
 $(document).ready(async ()=>{
-   let authRes = await fetch()
+   let authRes = await fetch('/api/auth/check')
+   let auth = await authRes.json()
+  
+   if(authRes.ok){
+        $('#authReferenceMobile').text(auth.email)
+        $('#authReference').text(auth.email)
+        $('#authReference').attr('href', '/profile')
+        $('#authReferenceMobile').attr('href', '/profile')
+   }else{
+        
+   }
     let brands = await fetch('/api/brand')
     let brandList = await brands.json()
     $('#brandList').empty()
