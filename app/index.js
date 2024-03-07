@@ -2,6 +2,7 @@
 const express = require('express')
 const session = require('express-session');
 const app = express()
+const path=require('path')
 require('dotenv').config();
 const userRouter = require('./routers/userRouter.js')
 const authRouter = require('./routers/authRouter.js')
@@ -12,17 +13,18 @@ const brandRouter = require('./routers/brandRouter.js')
 const multer = require('multer')
 const storageConfig = multer.diskStorage({
   destination: (req, file, cb) =>{
-      cb(null, "img");
+      cb(null, path.join(__dirname, "/img"));
   },
   filename: (req, file, cb) =>{
-      let num =uuid.v4()
-      cb(null, num+'.'+file.mimetype.split('/')[1]);
+     let date = new Date()
+
+      cb(null, date.getTime()+'.'+file.originalname.split('.')[1]);
   }
 });
 
 
 
-app.use(multer({storage:storageConfig, dest:"img"}).array('image'));
+app.use(multer({storage:storageConfig}).array('image'));
 
 
 app.use(session({

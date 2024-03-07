@@ -6,7 +6,8 @@ $(document).ready(async function(){
     subcat = urlParams.get('subcat')
     brand = urlParams.get('brand')
     price = urlParams.get('price')
-    search(name1, cat,subcat, brand, price)
+    page = urlParams.get('page')
+    search(name1, cat,subcat, brand, price, page)
 
     
     let brands = await fetch('/api/brand')
@@ -89,8 +90,11 @@ $(document).ready(async function(){
    
 }) 
 
-async function search(name,cat,subcat,brand,price){
+async function search(name,cat,subcat,brand,price, page){
     let params = `?name=${name||''}&cat=${cat||''}&subcat=${subcat||''}&brand=${brand||''}&price=${price||''}&`
+    if(page){
+        params+='page='+page
+    }
     let url = `/api/product/${params}`
     let products = await fetch(url)
     let itemList = await products.json()
@@ -147,6 +151,8 @@ async function search(name,cat,subcat,brand,price){
     }
     if(itemList.currentPage>0){
         $('#pagination').append(`<span>...</span><a href="/shop{params}page=${itemList.totalPages}">${itemList.totalPages}</a>`)
+    }else{
+        $('#pagination').append(`<a href="/shop{params}page=${itemList.totalPages}">${itemList.totalPages}</a>`)
     }
     $('#showingPages').text(`Показано ${itemList.Products.length} из ${itemList.totalItems}`)
 }
