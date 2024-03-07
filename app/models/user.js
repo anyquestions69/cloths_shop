@@ -71,6 +71,7 @@ const Image = sequelize.define("img",{
 const Size = sequelize.define("size",{
   name:{
     type: Sequelize.STRING,
+    unique:true
   }
 },{
   timestamps: false
