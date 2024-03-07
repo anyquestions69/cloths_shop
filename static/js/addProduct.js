@@ -13,9 +13,10 @@ $(document).ready(async function(){
       $('#sizeCheck').each(()=>{
         if($(this).attr("checked", "true")){
             sizes.append({name:$(this).val()})
-            formData.append('sizes[]',sizes)
+            
         }
       })
+      formData.append('sizes[]',sizes)
     let res = await fetch('/api/product',{
         method:'POST',
         headers:{
