@@ -9,6 +9,10 @@ $(document).ready(async function(){
         }
         formData.append('name',$('#name').val())
         formData.append('description',$('#description').val())
+        var selected = [];
+        $('#checkboxes input:checked').each(function() {
+            selected.push({name:$(this).attr('name'), count:1});
+        });
         formData.append('price',$('#price').val())
         let sizes=[]
         $('#sizeCheck').each(()=>{

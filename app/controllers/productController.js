@@ -96,19 +96,20 @@ class Manager{
             let {name, description, price, categoryId, subcategoryId, sizes, prodsize} = req.body
             console.log(req.body)
             let product = await Product.create({name, description,price, categoryId:1, subcategoryId:1, brandId:1})
-            console.log(req.files[0])
+            
             if( req.files){
                 for(let img of  req.files){
-                    console.log(img)
+                    
                     let resImg = await Image.create({name:img.filename, productId:product.id})
                 }
             }
-           /*  let size = await Size.bulkCreate(sizes, {fields:['name'],updateOnDuplicate:['name']})
+            
+            let size = await Size.bulkCreate(sizes, {fields:['name'],updateOnDuplicate:['name']})
             console.log(sizes)
             for(let s of sizes){
                 await product.addSize(s, {through:{count:1}})
             }
-            product = await product.save() */
+            product = await product.save()
             return res.send(product)
         } catch (error) {
             return res.status(400).send(error)
