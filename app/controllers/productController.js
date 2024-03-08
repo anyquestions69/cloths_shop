@@ -103,10 +103,11 @@ class Manager{
                     let resImg = await Image.create({name:img.filename, productId:product.id})
                 }
             }
-            
-            let size = await Size.bulkCreate(sizes, {fields:['name'],updateOnDuplicate:['name']})
-            console.log(sizes)
+            sizes=JSON.parse(sizes)
+            let size = await Size.bulkCreate(sizes, {updateOnDuplicate:['name']})
+            console.log(size)
             for(let s of sizes){
+                console.log(s)
                 await product.addSize(s, {through:{count:1}})
             }
             product = await product.save()
