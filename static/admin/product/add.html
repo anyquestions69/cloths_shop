@@ -26,27 +26,66 @@
     <link rel="stylesheet" href="../../css/style.css" type="text/css">
 </head>
 <body>
+     <!-- Header Section Begin -->
+     <header class="header">
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <a href="./index.html"><h3>GORSHOP.</h3></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li ><a href="./index">Главная</a></li>
+                            <li ><a href="./shop">Товары</a>
+                                <ul class="dropdown" id="categoryList">
+                                    <li><a href="./about.html">Одежда</a></li>
+                                    <li><a href="./shop-details.html">Обувь</a></li>
+                                    <li><a href="./shopping-cart.html"></a></li>
+                                    <li><a href="./checkout.html">Check Out</a></li>
+                                    
+                                </ul>
+                            </li>
+                            <li><a href="./contact.html">Контакты</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+    <div class="container">
     <form  id="productForm">
-        <input type="text" name="name" id="name" placeholder="name">
-        <textarea name="description" id="description" cols="30" rows="10"></textarea>
-        <input type="text" name="price" id="price">
-        <input type="file" name="image" id="imgs" multiple>
-        <select name="cat" id="catSelect">
-            <option value="1">Одежда</option>
-            <option value="2">Обувь</option>
-            <option value="3">Аксессуары</option>
-        </select>
+        
+        <input class="form-control" type="text" name="name" id="name" placeholder="name">
+        <textarea name="description" placeholder="описание" class="form-control" id="description" cols="30" rows="10"></textarea>
+        <input type="text" class="form-control" placeholder="цена" name="price" id="price">
+        <input type="file" class="form-control"  placeholder="загрузите фото товара" name="image" id="imgs" multiple>
+        <div class="form-group mb-5 mx-auto">
+            <select name="cat"  class="form-control" id="catSelect">
+                <option default value="1">Одежда</option>
+                <option value="2">Обувь</option>
+                <option value="3">Аксессуары</option>
+            </select>
+        </div>
+        
         <div id="sizes">
            <!--  <form action="">
                 <input type="text" name="" id="sizeName">
                 <button type="submit">Добавить размер</button>
             </form> -->
-            <input type="checkbox" name="sizes" class="sizeCheck" value="m" id="">m
-            <input type="checkbox" name="sizes" class="sizeCheck" value="l" id="">l
-            <input type="checkbox" name="sizes" class="sizeCheck" value="xl" id="">xl
+            <div class="form-check"> <input class="form-check-input" type="checkbox" name="sizes" class="sizeCheck" value="m" id=""><label class="form-check-label">m</label></div>
+            <div class="form-check"> <input class="form-check-input" type="checkbox" name="sizes" class="sizeCheck" value="l" id=""><label class="form-check-label">l</label></div>
+            <div class="form-check"> <input class="form-check-input" type="checkbox" name="sizes" class="sizeCheck" value="xl" id=""><label class="form-check-label">xl</label></div>
         </div>
-        <button type="submit">Добавить</button>
+        <button class="btn btn-primary" type="submit">Добавить</button>
     </form>
+    </div>
     <script src="../../js/jquery-3.3.1.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/jquery.nice-select.min.js"></script>

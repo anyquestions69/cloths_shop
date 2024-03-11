@@ -17,13 +17,7 @@ $(document).ready(async function(){
         console.log(selected)
         formData.append('sizes', JSON.stringify(selected))
         formData.append('price',$('#price').val())
-        let sizes=[]
-        $('#sizeCheck').each(()=>{
-          if($(this).attr("checked", "true")){
-            formData.append('sizes[]',$(this).val())
-              
-          }
-        })
+       
        
       let res = await fetch('/api/product',{
           method:'POST',
